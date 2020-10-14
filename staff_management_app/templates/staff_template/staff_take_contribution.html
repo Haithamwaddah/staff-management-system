@@ -1,0 +1,141 @@
+{% extends 'staff_template/base_template.html' %}
+{% block page_title %}
+Staff Contribution
+{% endblock page_title %}
+{% block main_content %}
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+                    <div class="row">
+              <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Staff Contribution</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+                <div class="card-body">
+                   <div class="form-group">
+                    <label>Project </label>
+                    <select class="form-control" name="project" id="project">
+                        {% for project in projects %}
+                          <option value="{{ project.id }}">{{ project.project_name }}</option>
+                        {% endfor %}
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Working Year</label>
+                    <select class="form-control" name="working_year" id="working_year">
+                        {% for working_year in working_years %}
+                          <option value="{{ working_year.id }}">{{ working_year.working_start_year }} TO {{ working_year.working_end_year }}</option>
+                        {% endfor %}
+                    </select>
+                  </div>
+                   <div class="form-group">
+                      {% if messages %}
+                        {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                        <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% if message.tags == 'success' %}
+                        <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <button type="button" class="btn btn-primary btn-block" id="fetch_gstaff">Fetch Staff</button>
+                </div>
+                <div id="gstaff_data" class="card-footer">
+
+                </div>
+            </div>
+            <!-- /.card -->
+
+
+
+          </div>
+          </div>
+      </div>
+    </section>
+    <!-- /.content -->
+{% endblock main_content %}
+{% block custom_js %}
+<script>
+    $(document).ready(function(){
+        $("#fetch_gstaff").click(function(){
+            var project=$("#project").val()
+            var working_year=$("#working_year").val()
+
+            $.ajax({
+                url:'{% url 'get_gstaff' %}',
+                type:'POST',
+                data:{project:project,working_year:working_year},
+            })
+            .done(function(response){
+                var json_data=JSON.parse(response);
+                console.log(json_data)
+                var div_data="<div class='form-group'><label>Date : </label><input type='date' name='contribution_date' id='contribution_date' class='form-control'></div><div class='form-group'><div class='row'>";
+                for(key in json_data)
+                {
+                    div_data+="<div class='col-lg-2'><div class='form-check'><input type='checkbox' checked='checked' name='gstaff_data[]' value='"+json_data[key]['id']+"'><label class='form-check-label'>"+json_data[key]['name']+"</label></div></div>";
+                }
+                div_data+="</div></div>";
+                div_data+="<div class='form-group'>";
+                div_data+="<button id='save_contribution' class='btn btn-success btn-block' type='button'>Apply Contribution</button>";
+                div_data+="</div>";
+
+                $("#gstaff_data").html(div_data);
+
+            })
+            .fail(function(){
+                alert("Error in Fetching staff")
+            })
+
+
+            $(document).on("click","#save_contribution",function(){
+
+                $(this).attr("disabled","disabled")
+                $(this).text("Saving Contribution Data...")
+                var gstaff_data=$("input[name='gstaff_data[]']").map(function(){
+                        if($(this).is(":checked")){
+                            return {"id":$(this).val(),"status":1};
+                        }
+                        else{
+                            return {"id":$(this).val(),"status":0};
+                        }
+                 }).get()
+                var contribution_date=$("#contribution_date").val();
+                var project_id=$("#project").val();
+                var working_year_id=$("#working_year").val();
+                console.log(gstaff_data)
+                gstaff_data=JSON.stringify(gstaff_data)
+
+                $.ajax({
+                        url:'{% url 'save_contribution_data' %}',
+                        type:'POST',
+                        data:{gstaff_ids:gstaff_data,contribution_date:contribution_date,project_id:project_id,working_year_id:working_year_id},
+                    })
+                    .done(function(response){
+
+                        if(response=="OK"){
+                            alert("Update Save")
+                        }
+                        else{
+                            alert("Error in Saving Data")
+                        }
+                        location.reload()
+                    })
+                    .fail(function(){
+                        alert("Error in Saving general staff")
+                    })
+            })
+        })
+    })
+</script>
+{% endblock custom_js %}

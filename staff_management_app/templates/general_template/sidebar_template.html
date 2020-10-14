@@ -1,0 +1,79 @@
+{% load static %}
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="/general_staff_home" class="brand-link">General Staff Panel</a>
+<!--&lt;!&ndash;      <img src="{% static "dist/img/AdminLTELogo.png" %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"&ndash;&gt;-->
+<!--           style="opacity: .8">-->
+      <span class="brand-text font-weight-light"></span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="{% static "dist/img/user2-160x160.jpg" %}" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+          <a href="{% url 'gstaff_profile' %}" class="d-block">{{ user.username }}</a>
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+          <li class="nav-item">
+            {% url 'gstaff_home' as gstaff_home %}
+            <a href="{{ gstaff_home }}" class="nav-link {% if request.path == gstaff_home %} active {% endif %}">
+              <i class="nav-icon fas fa-home"></i>
+              <p>
+                Home
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'gstaff_view_contribution' as gstaff_view_contribution %}
+            {% url 'gstaff_view_contribution_post' as gstaff_view_contribution_post %}
+            <a href="{{ gstaff_view_contribution }}" class="nav-link {% if request.path == gstaff_view_contribution %} active {% endif %} {% if request.path == gstaff_view_contribution_post %} active {% endif %}">
+              <i class="nav-icon fas fa-chart-area"></i>
+              <p>
+                View Contribution
+              </p>
+            </a>
+          </li>
+           <li class="nav-item">
+            {% url 'gstaff_apply_leave' as gstaff_apply_leave %}
+            <a href="{{ gstaff_apply_leave }}" class="nav-link {% if request.path == gstaff_apply_leave %} active {% endif %}">
+              <i class="nav-icon fas fa-calendar-alt"></i>
+              <p>
+                Apply for Leave
+              </p>
+            </a>
+          </li>
+           <li class="nav-item">
+            {% url 'gstaff_feedback' as gstaff_feedback %}
+            <a href="{{ gstaff_feedback }}" class="nav-link {% if request.path == gstaff_feedback %} active {% endif %}">
+              <i class="nav-icon fas fa-comment"></i>
+              <p>
+                Feedback Message
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'gstaff_all_notification' as gstaff_all_notification %}
+            <a href="{{ gstaff_all_notification }}" class="nav-link {% if request.path == gstaff_all_notification %} active {% endif %}">
+              <i class="nav-icon fas fa-bell"></i>
+              <p>
+                Notifications
+              </p>
+            </a>
+          </li>
+
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>

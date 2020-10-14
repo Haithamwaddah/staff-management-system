@@ -1,0 +1,208 @@
+{% extends 'staff_template/base_template.html' %}
+{% block page_title %}
+View Update Contribution
+{% endblock page_title %}
+{% block main_content %}
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+                    <div class="row">
+              <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">View Update Contribution</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+                <div class="card-body">
+                   <div class="form-group">
+                    <label>Project</label>
+                    <select class="form-control" name="department" id="department">
+                        {% for department in departments %}
+                          <option value="{{ department.id }}">{{ department.department_name }}</option>
+                        {% endfor %}
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Working Year </label>
+                    <select class="form-control" name="working_year_id" id="working_year_id">
+                        {% for working_year in working_year_id %}
+                          <option value="{{ working_year.id }}">{{ working_year.working_start_year }} TO {{ working_year.working_end_year }}</option>
+                        {% endfor %}
+                    </select>
+                  </div>
+                  <div class="form-group">
+                     <button type="button" class="btn btn-primary btn-block" id="fetch_contribution">Fetch Contribution Date</button>
+                   </div>
+                   <div class="form-group" id="contribution_block" style="display:none">
+                    <label>Contribution Date </label>
+                    <select class="form-control" name="contribution_date" id="contribution_date">
+
+                    </select>
+                  </div>
+                    <div class="form-group">
+                        <div class="alert alert-danger" id="error_contribution" style="display:none">
+
+                        </div>
+                    </div>
+                    <div class="form-group" id="fetch_gstaff_block" style="display:none">
+                         <button type="button" class="btn btn-primary btn-block" id="fetch_gstaff">Fetch Staff Data</button>
+                     </div>
+                </div>
+                <!-- /.card-body -->
+
+
+                <div id="gstaff_data" class="card-footer">
+
+                </div>
+            </div>
+            <!-- /.card -->
+
+
+
+          </div>
+          </div>
+      </div>
+    </section>
+    <!-- /.content -->
+{% endblock main_content %}
+{% block custom_js %}
+<script>
+    $(document).ready(function(){
+
+
+
+        $("#fetch_contribution").click(function(){
+               var department=$("#department").val();
+               var working_year=$("#working_year_id").val();
+
+            $.ajax({
+                    url:'{% url 'get_contribution_dates' %}',
+                    type:'POST',
+                    data:{department:department,working_year_id:working_year},
+                })
+                .done(function(response){
+                    var json_data=JSON.parse(response);
+                    if(json_data.length>0)
+                    {
+                        var html_data="";
+                        for(key in json_data)
+                        {
+                            html_data+="<option value="+json_data[key]["id"]+">"+json_data[key]["contribution_date"]+"</option>";
+                        }
+                        $("#error_contribution").html("");
+                        $("#error_contribution").hide();
+                        $("#contribution_block").show();
+                        $("#fetch_gstaff_block").show();
+                        $("#contribution_date").html(html_data);
+                     }
+                     else
+                     {
+                        $("#error_contribution").html("No Contribution Data Found");
+                        $("#error_contribution").show();
+                        $("#contribution_block").hide();
+                        $("#fetch_gstaff_block").hide();
+                        $("#contribution_date").html("");
+                     }
+                })
+                .fail(function(){
+                    alert("Error in Fetching Contribution")
+                    $("#error_contribution").html("");
+                    $("#contribution_block").hide();
+                    $("#fetch_gstaff_block").hide();
+
+                });
+
+
+        })
+
+
+        $("#fetch_gstaff").click(function(){
+
+            var contribution_date=$("#contribution_date").val()
+
+            $.ajax({
+                url:'{% url 'get_contribution_gstaff' %}',
+                type:'POST',
+                data:{contribution_date:contribution_date},
+            })
+            .done(function(response){
+                var json_data=JSON.parse(response);
+                var div_data="<div class='form-group'><label>gstaff Contribution : </label></div><div class='form-group'><div class='row'>";
+                for(key in json_data)
+                {
+                    div_data+="<div class='col-lg-3'><div class='form-check'><input type='checkbox' ";
+                    if(json_data[key]['status'])
+                    {
+                        div_data+="checked='checked'";
+                    }
+                    else{
+                        div_data+="";
+                    }
+                    div_data+="name='gstaff_data[]' value='"+json_data[key]['id']+"'><label class='form-check-label'>"+json_data[key]['name']+"</label> ";
+
+
+                     if(json_data[key]['status'])
+                    {
+                        div_data+="<b> [ Present ]</b>";
+                    }
+                    else{
+                        div_data+="<b> [ Absent ]</b>";
+                    }
+
+                    div_data+="</div></div>";
+                }
+                div_data+="</div></div>";
+                div_data+="<div class='form-group'>";
+                div_data+="<button id='save_contribution' class='btn btn-success btn-block' type='button'>Save Contribution Data</button>";
+                div_data+="</div>";
+
+                $("#gstaff_data").html(div_data);
+
+            })
+            .fail(function(){
+                alert("Error in Fetching General Staff")
+            })
+
+         })
+
+         $(document).on("click","#save_contribution,function(){
+
+                $(this).attr("disabled","disabled")
+                $(this).text("Saving Contribution Data...")
+                var gstaff_data=$("input[name='gstaff_data[]']").map(function(){
+                        if($(this).is(":checked")){
+                            return {"id":$(this).val(),"status":1};
+                        }
+                        else{
+                            return {"id":$(this).val(),"status":0};
+                        }
+                 }).get()
+                var contribution_date=$("#contribution_date").val();
+                gstaff_data=JSON.stringify(gstaff_data)
+
+                $.ajax({
+                        url:'{% url 'save_updatecontribution_data' %}',
+                        type:'POST',
+                        data:{gstaff_ids:gstaff_data,contribution_date:contribution_date},
+                    })
+                    .done(function(response){
+
+                        if(response=="OK"){
+                            alert("Contribution Save")
+                        }
+                        else{
+                            alert("Error in Saving Data")
+                        }
+                        location.reload()
+                    })
+                    .fail(function(){
+                        alert("Error in Saving General Staff")
+                    })
+
+        })
+
+    })
+</script>
+{% endblock custom_js %}

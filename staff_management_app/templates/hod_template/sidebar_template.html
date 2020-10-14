@@ -1,0 +1,261 @@
+{% load static %}
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+      <a href="/admin_home" class="brand-link">HR Panel</a>
+<!--      <img src="{% static "dist/img/AdminLTELogo.png" %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"-->
+<!--           style="opacity: .8">-->
+      <span class="brand-text font-weight-light"></span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="{% static "dist/img/user2-160x160.jpg" %}" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+          <a href="{% url 'admin_profile' %}" class="d-block">{{ user.username }}</a>
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+
+          <li class="nav-item">
+            {% url 'admin_home' as admin_home %}
+            <a href="{{ admin_home }}" class="nav-link {% if request.path == admin_home %} active {% endif %}">
+              <i class="nav-icon fas fa-home"></i>
+              <p>
+                Home
+              </p>
+            </a>
+          </li>
+
+
+          <!--<li class="nav-item">
+            {% url 'add_staff' as add_staff %}
+            <a href="{{ add_staff }}" class="nav-link {% if request.path == add_staff %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Add Management Staff
+              </p>
+            </a>
+          </li>-->
+            <li class="nav-item">
+                <a href="#collapse1" data-toggle="collapse" class="nav-link">
+                    <i class="nav-icon fas fa-address-card"></i>
+                    <p>
+                        Manage Staffs
+                    </p>
+                    <span class="pull-right container" style="margin-left: 65px">
+                        <i class="nav-icon fas fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+            </li>
+            <div id="collapse1" class="collapse">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+           <li class="nav-item" style="margin-left: 15px">
+              {% url 'manage_staff' as manage_staff %}
+            {% url 'edit_staff' staff_id=id as edit_staff %}
+            <a href="{% url 'manage_staff' %}" class="nav-link {% if request.path == manage_staff %} active {% endif %} {% if request.path == edit_staff %} active {% endif %}">
+              <i class="nav-icon fas fa-user"></i>
+              <p>
+                Manage Manager
+              </p>
+            </a>
+          </li>
+          <!--<li class="nav-item">
+              {% url 'add_general_staff' as add_general_staff %}
+            <a href="{% url 'add_gstaff' %}" class="nav-link {% if request.path == add_gstaff %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Add General Staff
+              </p>
+            </a>
+          </li>-->
+          <li class="nav-item" style="margin-left: 15px">
+              {% url 'manage_gstaff' as manage_gstaff %}
+              {% url 'edit_gstaff' gstaff_id=id as edit_gstaff %}
+            <a href="{% url 'manage_gstaff' %}" class="nav-link {% if request.path == manage_gstaff %} active {% endif %} {% if request.path == edit_gstaff %} active {% endif %}">
+              <i class="nav-icon fas fa-users"></i>
+              <p>
+                Manage General Staff
+              </p>
+            </a>
+          </li>
+                </ul>
+                <hr>
+            </div>
+          <!--<li class="nav-item">
+            {% url 'add_department' as add_department %}
+            <a href="{% url 'add_department' %}" class="nav-link {% if request.path == add_department %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Add Department
+              </p>
+            </a>
+          </li>-->
+          <li class="nav-item">
+            {% url 'manage_department' as manage_department %}
+              {% url 'edit_department' department_id=id as edit_department %}
+            <a href="{% url 'manage_department' %}" class="nav-link {% if request.path == manage_department %} active {% endif %} {% if request.path == edit_department %} active {% endif %}">
+              <i class="nav-icon fas fa-building"></i>
+              <p>
+                Manage Department
+              </p>
+            </a>
+          </li>
+          <!--<li class="nav-item">
+            {% url 'add_project' as add_project %}
+            <a href="{% url 'add_project' %}" class="nav-link {% if request.path == add_project %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Add Project
+              </p>
+            </a>
+          </li>-->
+          <li class="nav-item">
+            {% url 'manage_project' as manage_project %}
+            {% url 'edit_project' project_id=id as edit_project %}
+            <a href="{% url 'manage_project' %}" class="nav-link {% if request.path == manage_project %} active {% endif %} {% if request.path == edit_project %} active {% endif %} ">
+              <i class="nav-icon fas fa-briefcase"></i>
+              <p>
+                Manage Projects
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'manage_working' as manage_working %}
+            <a href="{% url 'manage_working' %}" class="nav-link {% if request.path == manage_working %} active {% endif %} ">
+              <i class="nav-icon fas fa-calendar-alt"></i>
+              <p>
+                Manage Working Year
+              </p>
+            </a>
+          </li>
+
+            <li class="nav-item">
+                <a href="#collapse2" data-toggle="collapse" class="nav-link">
+                    <i class="nav-icon fas fa-comment-alt"></i>
+                    <p>
+                        Staff Feedback
+                    </p>
+                    <span class="pull-right container" style="margin-left: 60px">
+                        <i class="nav-icon fas fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+            </li>
+            <div id="collapse2" class="collapse">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+           <li class="nav-item" style="margin-left: 15px">
+               {% url 'staff_feedback_message' as staff_feedback_message %}
+            <a href="{% url 'staff_feedback_message' %}" class="nav-link {% if request.path == staff_feedback_message %} active {% endif %}">
+              <i class="nav-icon fas fa-comment"></i>
+              <p>
+                Manager Feedback
+              </p>
+            </a>
+          </li>
+            <li class="nav-item" style="margin-left: 15px">
+             {% url 'gstaff_feedback_message' as gstaff_feedback_message %}
+            <a href="{% url 'gstaff_feedback_message' %}" class="nav-link {% if request.path == gstaff_feedback_message %} active {% endif %}">
+              <i class="nav-icon fas fa-comment"></i>
+              <p>
+                General Staff Feedback
+              </p>
+            </a>
+          </li>
+                </ul>
+                <hr>
+            </div>
+
+            <li class="nav-item">
+                <a href="#collapse3" data-toggle="collapse" class="nav-link">
+                    <i class="nav-icon fas fa-calendar-check"></i>
+                    <p>
+                        Staff Leave Application
+                    </p>
+                    <span class="pull-right container" style="margin-left: 6px">
+                        <i class="nav-icon fas fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+            </li>
+            <div id="collapse3" class="collapse">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <li class="nav-item" style="margin-left: 15px">
+                 {% url 'staff_leave_view' as staff_leave_view %}
+            <a href="{% url 'staff_leave_view' %}" class="nav-link {% if request.path == staff_leave_view %} active {% endif %}">
+              <i class="nav-icon fas fa-calendar-check"></i>
+              <p>
+                Manager Leave
+              </p>
+            </a>
+          </li>
+           <li class="nav-item" style="margin-left: 15px">
+               {% url 'gstaff_leave_view' as gstaff_leave_view %}
+            <a href="{% url 'gstaff_leave_view' %}" class="nav-link {% if request.path == gstaff_leave_view %} active {% endif %}">
+              <i class="nav-icon fas fa-calendar-check"></i>
+              <p>
+                General Staff Leave
+              </p>
+            </a>
+          </li>
+                </ul>
+                <hr>
+            </div>
+
+          <!--<li class="nav-item">
+            {% url 'admin_view_contribution' as admin_view_contribution %}
+             <a href="{% url 'admin_view_contribution' %}" class="nav-link {% if request.path == admin_view_contribution %} active {% endif %}">
+              <i class="nav-icon fas fa-calendar"></i>
+              <p>
+                View Contribution
+              </p>
+            </a>
+          </li>-->
+
+            <li class="nav-item">
+                <a href="#collapse4" data-toggle="collapse" class="nav-link">
+                    <i class="nav-icon fas fa-bell"></i>
+                    <p>
+                        Send Notification
+                    </p>
+                    <span class="pull-right container" style="margin-left: 42px">
+                        <i class="nav-icon fas fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+            </li>
+            <div id="collapse4" class="collapse">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <li class="nav-item" style="margin-left: 15px">
+            {% url 'admin_send_notification_staff' as admin_send_notification_staff %}
+             <a href="{% url 'admin_send_notification_staff' %}" class="nav-link {% if request.path == admin_send_notification_staff %} active {% endif %}">
+              <i class="nav-icon fas fa-bell"></i>
+              <p>
+                Manager Notification
+              </p>
+            </a>
+          </li>
+          <li class="nav-item" style="margin-left: 15px">
+            {% url 'admin_send_notification_gstaff' as admin_send_notification_gstaff %}
+             <a href="{% url 'admin_send_notification_gstaff' %}" class="nav-link {% if request.path == admin_send_notification_gstaff %} active {% endif %}">
+              <i class="nav-icon fas fa-bell"></i>
+              <p>
+                General Staff Notification
+              </p>
+            </a>
+          </li>
+                </ul>
+                <hr>
+            </div>
+
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>

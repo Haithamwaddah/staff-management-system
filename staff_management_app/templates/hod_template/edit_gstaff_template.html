@@ -1,0 +1,34 @@
+{% extends 'hod_template/base_template.html' %}
+{% block page_title %}
+Edit General Staff
+{% endblock page_title %}
+{% block main_content %}
+    <!-- Main content -->
+<div style="margin-bottom: 15px; margin-left: 15px">
+  <a href="/manage_general_staff" class="btn btn-default">Back</a>
+</div>
+
+    <section class="content">
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Edit General Staff</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+                {% url 'edit_gstaff_save' as action_path %}
+                {% include 'hod_template/form_template.html' with messages=messages form=form action_path=action_path button_text="Edit General Staff" %}
+            <!-- /.card -->
+
+
+
+          </div>
+          </div>
+      </div>
+    </section>
+    <!-- /.content -->
+{% endblock main_content %}
+

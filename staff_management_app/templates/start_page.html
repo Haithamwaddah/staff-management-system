@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Forest Station</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static "plugins/fontawesome-free/css/all.min.css" %}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- icheck bootstrap -->
+  <link rel="stylesheet" href="{% static "plugins/icheck-bootstrap/icheck-bootstrap.min.css" %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static "dist/css/adminlte.min.css" %}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <style>
+        body, html {
+          height: 100%;
+          margin: 0;
+        }
+
+        .bg {
+          /* The image used */
+          background-image: url({% static "dist/img/bg.jpg" %});
+
+          /* Full height */
+          height: 100%;
+
+          /* Center and scale the image nicely */
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+        }
+    </style>
+
+</head>
+<body class="hold-transition login-page bg" >
+<div class="login-logo" style="margin-bottom: 70px">
+    <a style="color: white; font-size: 70px"><b>Forest</b> Station</a>
+  </div>
+<div class="login-box" style="margin-bottom: 150px">
+
+  <!-- /.login-logo -->
+    <div class="login-logo" >
+    <a style="color: white; font-size: 30px">Choose to Navigate</a>
+  </div>
+ <div class="row">
+        <div class="col-md-12 col-sm-7 col-xs-12">
+            <a href="/show_login">
+                  <div class="info-box bg-gradient-blue">
+                    <span class="info-box-icon bg-gradient-lightblue"><i class="fa fa-users"></i></span>
+
+                    <div class="info-box-content">
+                      <span class="info-box-number">Staff Management System</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                  </div>
+            </a>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-12 col-sm-6 col-xs-12">
+            <a href="http://127.0.0.2:8001/">
+                  <div class="info-box bg-gradient-red">
+                    <span class="info-box-icon bg-red"><i class="fa fa-briefcase"></i></span>
+
+                    <div class="info-box-content">
+                      <span class="info-box-number">Client Management System</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                  </div>
+            </a>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-12 col-sm-6 col-xs-12">
+            <a href="http://10.210.2.209/foreststation">
+                  <div class="info-box bg-gradient-green">
+                    <span class="info-box-icon bg-green"><i class="fa fa-server"></i></span>
+
+                    <div class="info-box-content">
+                      <span class="info-box-number">Forest Dev Inventory</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                  </div>
+            </a>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
+
+<!--&lt;!&ndash; jQuery &ndash;&gt;-->
+<!--<script src="{% static "plugins/jquery/jquery.min.js" %}"></script>-->
+<!-- Bootstrap 4 -->
+<script src="{% static "plugins/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static "dist/js/adminlte.min.js" %}"></script>
+
+</body>
+</html>
